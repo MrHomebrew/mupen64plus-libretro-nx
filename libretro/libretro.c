@@ -108,6 +108,7 @@ uint32_t txFilterIgnoreBG = 0;
 uint32_t MultiSampling = 0;
 uint32_t EnableFragmentDepthWrite = 0;
 uint32_t EnableShadersStorage = 0;
+uint32_t EnableTextureCache = 0;
 uint32_t EnableFBEmulation = 0;
 uint32_t EnableFrameDuping = 0;
 uint32_t EnableNoiseEmulation = 0;
@@ -217,7 +218,8 @@ static void setup_variables(void)
 #endif
         { CORE_NAME "-EnableShadersStorage",
             "Cache GPU Shaders; True|False" },
-
+        { CORE_NAME "-EnableTextureCache",
+            "Cache Textures; True|False" },
         { CORE_NAME "-EnableOverscan",
             "Overscan; Enabled|Disabled" },
         { CORE_NAME "-OverscanTop",
@@ -751,6 +753,13 @@ void update_variables()
     if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
     {
         EnableShadersStorage = !strcmp(var.value, "False") ? 0 : 1;
+    }
+
+    var.key = CORE_NAME "-EnableTextureCache";
+    var.value = NULL;
+    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+    {
+        EnableTextureCache = !strcmp(var.value, "False") ? 0 : 1;
     }
 
     var.key = CORE_NAME "-cpucore";
